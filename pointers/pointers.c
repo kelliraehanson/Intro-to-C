@@ -1,18 +1,5 @@
 #include <stdio.h>
-
-/*
-    Given a character pointer x (that points to an array of chars), and a
-    character pointer y, copies the character contents of y over to x. Pointer
-    arithmetic is necessary here. Also, make sure x points to a null terminator
-    at its end to terminate it properly. 
-
-    Example call:
-
-    char buffer[1024];
-
-    string_copy(buffer, "Hello!");
-    printf("%s", buffer); // Prints "Hello!"
-*/
+// C requires importing system / header files 
 
 // NOTES:
 // Pointers are references to the address of a variable, rather than its value. 
@@ -58,9 +45,35 @@
 // 	}
 // } 
 
-void string_copy(char *x, char *y)
-{
+/*
+    Given a character pointer x (that points to an array of chars), and a
+    character pointer y, copies the character contents of y over to x. Pointer
+    arithmetic is necessary here. Also, make sure x points to a null terminator
+    at its end to terminate it properly. 
 
+    Example call:
+
+    char buffer[1024];
+
+    string_copy(buffer, "Hello!");
+    printf("%s", buffer); // Prints "Hello!"
+*/
+
+// Remember!:
+// gcc -o pointers pointers.c
+// ./pointers
+// You can add -g -Wall for debugging purposes 
+// gcc -Wall -Wextra -o pointers pointers.c
+
+void string_copy(char *x, char *y) // Character pointer x points to an array of chars, and a character pointer y
+{
+ while (*y != '\0') { // While character pointer y is not equal to null aka '\0'
+        *x = *y; // Copies the character contents of y over to x
+        x++; // Tell me the value of x, then increment. x = x + 1
+        y++; // Tell me the value of y, then increment. y = y + 1
+    }
+
+    *x = '\0'; // Make sure x points to a null terminator at its end to terminate it properly
 }
 
 /*
@@ -71,9 +84,17 @@ void string_copy(char *x, char *y)
 
     Do not use the `strchr` function from the standard library.
 */
+
 char *find_char(char *str, int c)
 {
+    while (*str != '\0'){ // While the input string `str` pointer is not equal to null aka '\0'
+        if (*str == c) { // Search the input string `str` for the first instance of the character int `c`
+            return str; // Returns a pointer that points to the first instance of the character `c` in the input string `str`
+        }
+        str++; // Tell me the value of str, then increment. str = str + 1
+    }
 
+    return NULL; // Terminates with a null character. You could also put return '\0' here. They are the same thing, but there was a warning generated with using '\0' but tests still passed. 
 }
 
 /*
@@ -86,6 +107,26 @@ char *find_char(char *str, int c)
 */
 char *find_string(char *haystack, char *needle)
 {
+    char *first; // Character first pointer
+
+    while (*haystack != '\0') { // While the input string `haystack` pointer is not equal to null aka '\0'
+        if (*haystack == *needle) { // Use the Equal To Operator (==) to search the input string `haystack` for the first instance of the string `needle`. Will return 1 if they are equal or it will return 0 if not.
+            first = haystack; // Use the Assignment Operator (=) to assign the value of right side variable’s value to the left side variable.
+
+            while(*needle != '\0') { // While the input string `needle pointer is not equal to null aka '\0'
+                if (*haystack != *needle) { // If the input string `haystack` pointer is not equal to the input string `needle`
+                    first = NULL; // Terminate the Character first pointer with a null character. This could also be first = '\0';
+                }
+
+                haystack++; // In this while loop tell me the value of haystack, then increment. haystack = haystack + 1. If this doesn't work try ++haystack.
+                needle++; // In this while loop tell me the value of needle, then increment. needle = needle + 1
+            }
+        }
+
+        haystack++; // Tell me the value of haystack, then increment. haystack = haystack + 1
+    }
+
+    return first; // Return the input array first
 
 }
 
