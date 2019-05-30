@@ -36,6 +36,12 @@
 // 	}
 // }
 
+// Remember!:
+// gcc -o malloc malloc.c
+// ./malloc
+// You can add -g -Wall for debugging purposes 
+// gcc -Wall -Wextra -o malloc malloc.c
+
 
 /*
     Duplicates the input string by dynamically allocating memory for 
@@ -44,9 +50,22 @@
     You may want to use the string_length function to figure out the
     length of the input string.
 */
+
+// The strlen() function calculates the length of a given string in C. 
 char *string_dup(char *src)
 {
+    char *string_copy = malloc(strlen(src) + 1); // Duplicates the input string by dynamically allocating memory for the duplicate string using `malloc`
+    for (int i = 0; i < strlen(src); i++) { // In C you have an array data structure. When you set it you have to declare the size and the type of data that will be displayed in that array.
+        string_copy[i] = src[i]; // Use the Assignment Operator (=) to assign the value of right side variable’s value to the left side variable.
+    }
 
+    *(string_copy + strlen(src)) = '\0'; // Use the Assignment Operator (=) to assign the value of right side variable’s value to the left side variable.
+
+    printf("\n");
+    printf("Here is the duplicate string using malloc:\n%s\n", string_copy); // Printf the duplicate string
+    printf("\n");
+
+    return string_copy; // Return string_copy
 }
 
 /*
@@ -58,7 +77,13 @@ char *string_dup(char *src)
 */
 void mem_copy(void *dest, const void *src, int n)
 {
-
+    char *destsrc = (char *) dest; // The destination pointer (dest). Use the Assignment Operator (=) to cast the input pointers to char pointers first before performing the copying
+    char *copysrc = (char *) src; // Use the Assignment Operator (=) to cast the input pointers to char pointers first before performing the copying
+    
+    for (int i = 0; i < n; i++) // In C you have an array data structure. When you set it you have to declare the size and the type of data that will be displayed in that array.
+  {
+    *(destsrc + i) = *(copysrc + i); // Use the Assignment Operator (=) to receive a block of memory of any type and copies its contents to the destination pointer (dest).
+  }
 }
 
 /*
@@ -72,8 +97,20 @@ void mem_copy(void *dest, const void *src, int n)
     
     Do not use the `realloc` function from the standard libary.
 */
-void *resize_memory(void *ptr, int old_size, int new_size)
+void *resize_memory(void *pointer, int old_size, int new_size)
 {
+  char *old_memory = malloc(new_size); // Use the Assignment Operator (=) to 
+  if (new_size > old_size) // If new_size is greater than old_size
+  {
+    mem_copy(old_memory, pointer, new_size); // Resize the allocated memory to the new specified size.
+  }
+
+  else
+  {
+    mem_copy(old_memory, pointer, old_size); // Else in the case when old_size > new_size
+  }
+
+  return old_memory; // Return old_memory
 
 }
 
